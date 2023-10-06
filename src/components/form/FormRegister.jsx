@@ -1,13 +1,17 @@
 import { useState } from 'react';
 import { Notify } from 'notiflix';
+import { useDispatch } from 'react-redux';
 
 import FormItem from './FormItem';
 
 import s from './form.module.scss';
+import { signUpData } from 'redux/slices/profile';
 
 const FormRegister = () => {
+  const dispatch = useDispatch();
   const [authData, setAuthData] = useState({
-    login: '',
+    name: '',
+    email: '',
     password: '',
     rePassword: '',
   });
@@ -21,6 +25,13 @@ const FormRegister = () => {
     e.preventDefault();
     if (authData.password === authData.rePassword) {
       console.log(authData);
+      dispatch(
+        signUpData({
+          name: authData.name,
+          password: authData.password,
+          email: authData.email,
+        })
+      );
     } else {
       Notify.warning('Please enter same password and repassword');
     }
@@ -29,10 +40,17 @@ const FormRegister = () => {
     <form className={s.form} onSubmit={handleSubmit}>
       <h2 className={s.form_title}>Login</h2>
       <FormItem
-        name="login"
+        name="name"
         typeInput="text"
-        value={authData.login}
-        placeholderText="Enter your login"
+        value={authData.name}
+        placeholderText="Enter your name"
+        handleChange={handleChangeInput}
+      />
+      <FormItem
+        name="email"
+        typeInput="text"
+        value={authData.email}
+        placeholderText="Enter your email"
         handleChange={handleChangeInput}
       />
       <FormItem

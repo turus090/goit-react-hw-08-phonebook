@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import FormItem from './FormItem';
 import s from './form.module.scss';
+import { useDispatch } from 'react-redux';
+import { signInData } from 'redux/slices/profile';
 const FormLogin = () => {
+  const dispatch = useDispatch();
+
   const [authData, setAuthData] = useState({
-    login: '',
+    email: '',
     password: '',
   });
   const handleChangeInput = (nameParam, value) => {
@@ -12,14 +16,18 @@ const FormLogin = () => {
       [nameParam]: value,
     });
   };
+  const handleSubmit = e => {
+    e.preventDefault();
+    dispatch(signInData(authData));
+  };
   return (
-    <form className={s.form}>
+    <form className={s.form} onSubmit={handleSubmit}>
       <h2 className={s.form_title}>Login</h2>
       <FormItem
-        name="login"
+        name="email"
         typeInput="text"
-        value={authData.login}
-        placeholderText="Enter your login"
+        value={authData.email}
+        placeholderText="Enter your email address"
         handleChange={handleChangeInput}
       />
       <FormItem
@@ -29,7 +37,7 @@ const FormLogin = () => {
         placeholderText="Enter your password"
         handleChange={handleChangeInput}
       />
-      <button button className={s.form_btn}>
+      <button type="submit" className={s.form_btn}>
         Sing in
       </button>
     </form>
