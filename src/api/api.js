@@ -30,6 +30,7 @@ export const signOutApi = async token => {
 };
 
 export const getContacts = async token => {
+  console.log(token);
   const { data } = await axios.get(
     `${baseURL}/contacts`,
     {},

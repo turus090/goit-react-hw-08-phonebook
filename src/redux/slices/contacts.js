@@ -26,3 +26,5 @@ const contactsSlice = createSlice({
     builder.addCase(getContactsData.fulfilled, (state, action) => {});
   },
 });
+
+export default contactsSlice.reducer;
