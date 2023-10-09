@@ -7,7 +7,7 @@ const List = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getContactsData(token));
-  }, [token]);
+  }, [token, dispatch]);
   return <>List</>;
 };
 export default List;

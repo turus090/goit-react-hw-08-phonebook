@@ -32,10 +32,13 @@ export const signOutApi = async token => {
 export const getContacts = async token => {
   console.log(token);
   const { data } = await axios.get(
-    `${baseURL}/contacts`,
+    `https://connections-api.herokuapp.com/contacts`,
     {},
     {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
     }
   );
   return data;
