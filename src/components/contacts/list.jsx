@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getContactsData } from 'redux/slices/contacts';
 const List = () => {
-  const token = useSelector(state => state.profile.token);
-  console.log(token);
   const dispatch = useDispatch();
+  const listContacts = useSelector(state => state.contacts.list);
+  console.log(listContacts);
   useEffect(() => {
-    dispatch(getContactsData(token));
-  }, [token, dispatch]);
+    dispatch(getContactsData());
+  }, [dispatch]);
   return <>List</>;
 };
 export default List;

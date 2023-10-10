@@ -2,23 +2,29 @@ import s from './form.module.scss';
 import Button from 'common/Button/Button';
 import { Notify } from 'notiflix';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { createContactData } from 'redux/slices/contacts';
 
-const Form = props => {
+const Form = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts.list);
   const [candidateName, setCandidateName] = useState('');
   const [candidatePhone, setCandidatePhone] = useState('');
   const handleCreateContact = () => {
-    /*const result = props.list.find(
+    const result = contacts.find(
       contactItem =>
         contactItem.name.toLowerCase() === candidateName.toLowerCase()
     );
     if (result) {
       Notify.warning(`${candidateName} is already in contact`);
     } else {
-      props.createContact({
-        name: candidateName,
-        phone: candidatePhone,
-      });
-    }*/
+      dispatch(
+        createContactData({
+          name: candidateName,
+          number: candidatePhone,
+        })
+      );
+    }
   };
   return (
     <form className={s.form} onClick={e => e.preventDefault()}>
