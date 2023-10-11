@@ -1,15 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FormItem from './FormItem';
 import s from './form.module.scss';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signInData } from 'redux/slices/profile';
+import { useNavigate } from 'react-router-dom';
 const FormLogin = () => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
+  const token = useSelector(state => state.profile.token);
+  console.log(token);
   const [authData, setAuthData] = useState({
     email: '',
     password: '',
   });
+  useEffect(() => {
+    if (token !== null) {
+      localStorage.setItem('token', token);
+      if (!localStorage.getItem('email')) {
+        localStorage.setItem('email', authData.email);
+      }
+      navigate('/contacts');
+    }
+  }, [token, navigate, authData.email]);
+
   const handleChangeInput = (nameParam, value) => {
     setAuthData({
       ...authData,

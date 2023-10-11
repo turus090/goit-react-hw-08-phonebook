@@ -1,13 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { createContact, getContacts } from 'api/api';
+import { createContact, getContacts, deleteContact } from 'api/api';
 
 const initialState = {
-  list: [
-    {
-      name: 'John',
-      number: '123123',
-    },
-  ],
+  list: [],
   filter: '',
 };
 
@@ -26,10 +21,22 @@ export const createContactData = createAsyncThunk(
     return candidate;
   }
 );
+export const deleteContactData = createAsyncThunk(
+  'contact/delete',
+  async idCandidate => {
+    await deleteContact(idCandidate);
+    return idCandidate;
+  }
+);
 
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
+  reducers: {
+    changeFilter: (state, action) => {
+      state.filter = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder.addCase(getContactsData.fulfilled, (state, action) => {
       state.list = [...action.payload];
@@ -37,7 +44,12 @@ const contactsSlice = createSlice({
     builder.addCase(createContactData.fulfilled, (state, action) => {
       state.list = [...state.list, { ...action.payload }];
     });
+    builder.addCase(deleteContactData.fulfilled, (state, action) => {
+      state.list = state.list.filter(contact => contact.id !== action.payload);
+    });
   },
 });
+
+export const { changeFilter } = contactsSlice.actions;
 
 export default contactsSlice.reducer;

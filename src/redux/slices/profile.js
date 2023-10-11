@@ -2,8 +2,10 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { signUpApi, signInApi, signOutApi } from './../../api/api';
 
 const initialState = {
-  user: {},
-  token: null,
+  user: {
+    email: localStorage.getItem('email'),
+  },
+  token: localStorage.getItem('token') ? localStorage.getItem('token') : null,
 };
 
 export const signUpData = createAsyncThunk(

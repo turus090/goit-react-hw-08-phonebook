@@ -42,3 +42,8 @@ export const createContact = async candidate => {
   const { data } = await axios.post(`${baseUrl}/contacts`, candidate);
   return data;
 };
+
+export const deleteContact = async idCandidate => {
+  const { data } = await axios.delete(`${baseUrl}/contacts/${idCandidate}`);
+  return data;
+};
