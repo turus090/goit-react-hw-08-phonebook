@@ -5,7 +5,9 @@ const initialState = {
   user: {
     email: localStorage.getItem('email'),
   },
-  token: localStorage.getItem('token') ? localStorage.getItem('token') : null,
+  token: null,
+  isLogin: false,
+  failSign: false,
 };
 
 export const signUpData = createAsyncThunk(
@@ -27,20 +29,33 @@ export const logoutData = createAsyncThunk('profile/logout', async token => {
 const profileSlice = createSlice({
   name: 'profile',
   initialState,
+  reducers: {
+    changeInput: state => {
+      state.failSign = false;
+    },
+  },
   extraReducers: builder => {
     builder.addCase(signUpData.fulfilled, (state, action) => {
       state.user = { ...action.payload.user };
       state.token = action.payload.token;
+      state.isLogin = true;
     });
     builder.addCase(signInData.fulfilled, (state, action) => {
       state.user = { ...action.payload.user };
       state.token = action.payload.token;
+      state.isLogin = true;
+      state.failSign = false;
+    });
+    builder.addCase(signInData.rejected, (state, action) => {
+      state.failSign = true;
     });
     builder.addCase(logoutData.fulfilled, (state, action) => {
       state.user = {};
       state.token = null;
+      state.isLogin = false;
     });
   },
 });
 
+export const { changeInput } = profileSlice.actions;
 export default profileSlice.reducer;

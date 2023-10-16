@@ -21,6 +21,7 @@ const List = () => {
   const ContactsCollection = list.map(contact => {
     return (
       <ListItem
+        key={contact.id}
         id={contact.id}
         name={contact.name}
         number={contact.number}

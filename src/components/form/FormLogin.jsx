@@ -1,38 +1,43 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import FormItem from './FormItem';
 import s from './form.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { signInData } from 'redux/slices/profile';
+import { changeInput, signInData } from 'redux/slices/profile';
 import { useNavigate } from 'react-router-dom';
+import { Notify } from 'notiflix';
 const FormLogin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const token = useSelector(state => state.profile.token);
-  console.log(token);
+  const isLogin = useSelector(state => state.profile.isLogin);
+  const failSign = useSelector(state => state.profile.failSign);
   const [authData, setAuthData] = useState({
     email: '',
     password: '',
   });
-  useEffect(() => {
-    if (token !== null) {
-      localStorage.setItem('token', token);
-      if (!localStorage.getItem('email')) {
-        localStorage.setItem('email', authData.email);
-      }
-      navigate('/contacts');
-    }
-  }, [token, navigate, authData.email]);
+  if (isLogin) {
+    navigate('/contacts');
+  }
+  if (failSign) {
+    Notify.failure('Authentication failed');
+  }
 
   const handleChangeInput = (nameParam, value) => {
+    if (failSign) {
+      dispatch(changeInput());
+    }
     setAuthData({
       ...authData,
       [nameParam]: value,
     });
   };
   const handleSubmit = e => {
+    const form = e.currentTarget;
     e.preventDefault();
+
     dispatch(signInData(authData));
+    form.reset();
   };
+
   return (
     <form className={s.form} onSubmit={handleSubmit}>
       <h2 className={s.form_title}>Login</h2>
