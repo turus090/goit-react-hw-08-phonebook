@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteContactData, getContactsData } from 'redux/slices/contacts';
 import s from './list.module.scss';
-import ListItem from './ListItem';
+import ListItem from './ItemList';
 import checkFilter from './checkFilter';
 const List = () => {
   const dispatch = useDispatch();
