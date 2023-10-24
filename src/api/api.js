@@ -16,9 +16,9 @@ const clearAuthHeader = () => {
 };
 
 export const signUpApi = async candidate => {
-  const { data } = await axios.post(`${baseUrl}/users/signup`, candidate);
-  console.log(data);
-  return data;
+  const res = await axios.post(`${baseUrl}/users/signup`, candidate);
+  setAuthHeader(res.data.token);
+  return res.data;
 };
 
 export const signInApi = async candidate => {

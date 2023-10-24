@@ -15,6 +15,7 @@ const FormRegister = () => {
     password: '',
     rePassword: '',
   });
+
   const handleChangeInput = (nameParam, value) => {
     setAuthData({
       ...authData,
@@ -24,7 +25,6 @@ const FormRegister = () => {
   const handleSubmit = e => {
     e.preventDefault();
     if (authData.password === authData.rePassword) {
-      console.log(authData);
       dispatch(
         signUpData({
           name: authData.name,

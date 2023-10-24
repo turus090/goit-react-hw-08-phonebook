@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import ContactsPage from 'page/contacts/Contacts';
 import LoginPage from 'page/login/Login ';
 import RegisterPage from 'page/register/Register';
-import RestrictedRoute from './RestrictedRoute';
+import { RestrictedRoute, RestrictedRouteAuth } from './RestrictedRoute';
 import HomePage from 'page/home/HomePage';
 import Layout from './Layout';
 
@@ -15,11 +15,27 @@ const App = () => {
         <Route
           path="contacts"
           element={
-            <RestrictedRoute redirectTo="/login" element={<ContactsPage />} />
+            <RestrictedRoute redirectTo="/login" component={<ContactsPage />} />
           }
         />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="register" element={<RegisterPage />} />
+        <Route
+          path="login"
+          element={
+            <RestrictedRouteAuth
+              redirectTo="/contacts"
+              component={<LoginPage />}
+            />
+          }
+        />
+        <Route
+          path="register"
+          element={
+            <RestrictedRouteAuth
+              redirectTo="/contacts"
+              component={<RegisterPage />}
+            />
+          }
+        />
       </Route>
     </Routes>
   );

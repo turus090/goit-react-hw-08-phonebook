@@ -26,7 +26,7 @@ const Navigation = () => {
   } else {
     navData = navData.filter(el => !el.mustToken);
   }
-  console.log(navData);
+
   const LinkCollection = () => {
     return navData.map(el => (
       <li key={el.text} className={s.nav_list_item}>

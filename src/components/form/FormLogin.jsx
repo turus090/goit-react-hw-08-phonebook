@@ -3,20 +3,14 @@ import FormItem from './FormItem';
 import s from './form.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeInput, signInData } from 'redux/slices/profile';
-import { useNavigate } from 'react-router-dom';
 import { Notify } from 'notiflix';
 const FormLogin = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const isLogin = useSelector(state => state.profile.isLogin);
   const failSign = useSelector(state => state.profile.failSign);
   const [authData, setAuthData] = useState({
     email: '',
     password: '',
   });
-  if (isLogin) {
-    navigate('/contacts');
-  }
   if (failSign) {
     Notify.failure('Authentication failed');
   }
