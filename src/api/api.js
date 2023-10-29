@@ -28,22 +28,26 @@ export const signInApi = async candidate => {
 };
 //common.Authorization = `Bearer ${token}`;
 export const signOutApi = async () => {
+  setAuthHeader(localStorage.getItem('token'));
   const { data } = await axios.post(`${baseUrl}/users/logout`);
   clearAuthHeader();
   return data;
 };
 
 export const getContacts = async () => {
+  setAuthHeader(localStorage.getItem('token'));
   const { data } = await axios.get(`${baseUrl}/contacts`);
   return data;
 };
 
 export const createContact = async candidate => {
+  setAuthHeader(localStorage.getItem('token'));
   const { data } = await axios.post(`${baseUrl}/contacts`, candidate);
   return data;
 };
 
 export const deleteContact = async idCandidate => {
+  setAuthHeader(localStorage.getItem('token'));
   const { data } = await axios.delete(`${baseUrl}/contacts/${idCandidate}`);
   return data;
 };
